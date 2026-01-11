@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Лучшие онлайн игры</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Светлая тема по умолчанию */
+            --primary-color: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --text-color: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-color: #f9fafb;
+            --bg-card: #ffffff;
+            --bg-header: rgba(255, 255, 255, 0.8);
+            --border-color: #e5e7eb;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        /* Темная тема */
+        .dark-theme {
+            --primary-color: #818cf8;
+            --primary-light: #a5b4fc;
+            --primary-dark: #6366f1;
+            --text-color: #f9fafb;
+            --text-secondary: #d1d5db;
+            --bg-color: #111827;
+            --bg-card: #1f2937;
+            --bg-header: rgba(31, 41, 55, 0.8);
+            --border-color: #374151;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(31, 41, 55, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Стеклянный эффект */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+        }
+
+        /* Шапка */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background-color: var(--bg-header);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        nav a:hover, nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        .theme-toggle i {
+            pointer-events: none;
+        }
+
+        /* Telegram баннер */
+        .telegram-banner {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+
+        .telegram-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #0088cc, #34b7f1);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(0, 136, 204, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .telegram-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 136, 204, 0.4);
+        }
+
+        .telegram-btn i {
+            font-size: 1.5rem;
+        }
+
+        /* Основной контент */
+        main {
+            max-width: 1400px;
+            margin: 100px auto 40px;
+            padding: 0 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-bottom: 3rem;
+            border-radius: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary-color), var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .games-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Вкладки с играми */
+        .games-tabs {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-color);
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Контейнер для игр */
+        .game-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .game-container.active {
+            display: block;
+        }
+
+        .game-card {
+            border-radius: 20px;
+            overflow: hidden;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .game-header h3 {
+            font-size: 1.8rem;
+        }
+
+        .play-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .play-btn:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .game-description {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Контейнеры для игр */
+        .game-iframe-container {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        .game-iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Альтернатива iframe (показывается при ошибке загрузки) */
+        .iframe-alternative {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+            height: 100%;
+        }
+
+        .iframe-alternative.active {
+            display: flex;
+        }
+
+        .iframe-alternative i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .iframe-alternative h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .iframe-alternative p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+        }
+
+        /* Игра 2048 */
+        #game-2048-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-2048 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 10px;
+            width: 400px;
+            height: 400px;
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 500px) {
+            .game-2048 {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        .tile {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 700;
+            border-radius: 8px;
+            background-color: #e5e7eb;
+            color: var(--text-color);
+            transition: transform 0.15s ease;
+        }
+
+        .tile-2 { background-color: #f3f4f6; }
+        .tile-4 { background-color: #dbeafe; }
+        .tile-8 { background-color: #bfdbfe; color: white; }
+        .tile-16 { background-color: #93c5fd; color: white; }
+        .tile-32 { background-color: #60a5fa; color: white; }
+        .tile-64 { background-color: #3b82f6; color: white; }
+        .tile-128 { background-color: #2563eb; color: white; }
+        .tile-256 { background-color: #1d4ed8; color: white; }
+        .tile-512 { background-color: #1e40af; color: white; }
+        .tile-1024 { background-color: #1e3a8a; color: white; }
+        .tile-2048 { background-color: #1e1b4b; color: white; }
+
+        .game-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .game-score {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Игра Змейка */
+        #snake-game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .snake-game {
+            width: 500px;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 550px) {
+            .snake-game {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        .snake-canvas {
+            display: block;
+            background-color: var(--bg-card);
+        }
+
+        /* О сайте */
+        .about-section {
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            border-radius: 20px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .about-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .about-features {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feature i {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* Футер */
+        footer {
+            background-color: var(--bg-card);
+            padding: 3rem 2rem 1.5rem;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links h4, .footer-contact h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+
+        .contact-item i {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            main {
+                margin-top: 140px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .telegram-banner {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .games-tabs {
+                gap: 0.5rem;
+            }
+            
+            .tab-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+            
+            .telegram-banner {
+                position: static;
+                display: flex;
+                justify-content: center;
+                margin: 2rem 0;
+            }
+            
+            .telegram-btn {
+                position: static;
+                transform: none;
+            }
+            
+            .game-iframe-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                padding: 1rem;
+            }
+            
+            main {
+                padding: 0 1rem;
+            }
+            
+            .hero {
+                padding: 2rem 0.5rem;
+            }
+            
+            .game-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .play-btn {
+                align-self: stretch;
+                justify-content: center;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .game-iframe-container {
+                height: 300px;
+            }
+        }
+
+        /* Стили для супербойцов (iframe) */
+        .super-fighters-info {
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+        
+        .game-preview {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .game-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .game-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .game-placeholder i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="glass">
+        <div class="header-container">
+            <a href="#" class="logo" id="homeLink">
+                <i class="fas fa-gamepad"></i>
+                <span>GameHub</span>
+            </a>
+            
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-section="home">Главная</a></li>
+                    <li><a href="#" class="nav-link" data-section="games">Игры</a></li>
+                    <li><a href="#" class="nav-link" data-section="about">О сайте</a></li>
+                </ul>
+            </nav>
+            
+            <button class="theme-toggle glass" id="themeToggle" aria-label="Переключить тему">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Telegram баннер -->
+    <div class="telegram-banner">
+        <a href="https://t.me/+qXel42RiyrtmNzRi" target="_blank" class="telegram-btn glass">
+            <i class="fab fa-telegram"></i>
+            <span>Наш Telegram</span>
+        </a>
+    </div>
+
+    <!-- Основной контент -->
+    <main>
+        <!-- Главная секция -->
+        <section id="home" class="section active">
+            <div class="hero glass">
+                <h1>Лучшие онлайн игры в одном месте</h1>
+                <p>Откройте для себя увлекательный мир игр прямо в вашем браузере. Играйте бесплатно, без регистрации и скачивания.</p>
+                <button class="play-btn" id="startPlayingBtn">
+                    <i class="fas fa-play"></i>
+                    Начать играть
+                </button>
+            </div>
+        </section>
+
+        <!-- Игры -->
+        <section id="games" class="section" style="display: none;">
+            <div class="games-section">
+                <h2>Популярные игры</h2>
+                
+                <!-- Вкладки с играми -->
+                <div class="games-tabs">
+                    <button class="tab-btn active" data-game="super-fighters">Супербойцы</button>
+                    <button class="tab-btn" data-game="game-2048">2048</button>
+                    <button class="tab-btn" data-game="snake">Змейка</button>
+                </div>
+                
+                <!-- Игра Супербойцы -->
+                <div id="super-fighters-container" class="game-container active glass game-card">
+                    <div class="game-header">
+                        <h3>Супербойцы</h3>
+                        <a href="https://poki.com/ru/g/superfighters" target="_blank" class="play-btn">
+                            <i class="fas fa-external-link-alt"></i>
+                            Играть на Poki
+                        </a>
+                    </div>
+                    
+                    <p class="game-description">
+                        Захватывающая игра в жанре файтинг, где вы управляете одним из уникальных бойцов. 
+                        Сражайтесь с противниками, используйте специальные приемы и побеждайте в динамичных боях.
+                    </p>
+                    
+                    <div class="game-preview">
+                        <div class="game-placeholder">
+                            <i class="fas fa-fist-raised"></i>
+                            <h4>Супербойцы</h4>
+                            <p>Нажмите "Играть на Poki" чтобы начать игру</p>
+                        </div>
+                    </div>
+                    
+                    <div class="super-fighters-info">
+                        <h4>Как играть:</h4>
+                        <ul style="padding-left: 1.5rem; margin-top: 1rem; color: var(--text-secondary);">
+                            <li>Используйте WASD или стрелки для движения</li>
+                            <li>J - атака, K - прыжок, L - специальный прием</li>
+                            <li>Подбирайте оружие для усиления атаки</li>
+                            <li>Победите всех противников на арене</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Игра 2048 -->
+                <div id="game-2048-container" class="game-container glass game-card">
+                    <div class="game-header">
+                        <h3>2048</h3>
+                        <button class="play-btn" id="restart-2048">
+                            <i class="fas fa-redo"></i>
+                            Новая игра
+                        </button>
+                    </div>
+                    
+                    <p class="game-description">
+                        Классическая головоломка, где вам нужно объединять плитки с одинаковыми числами, чтобы получить плитку 2048. 
+                        Используйте стрелки на клавиатуре для перемещения плиток.
+                    </p>
+                    
+                    <div class="game-2048" id="game-2048-board"></div>
+                    
+                    <div class="game-controls">
+                        <div class="game-score">
+                            Счет: <span id="score-2048">0</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; color: var(--text-secondary);">
+                        <h4>Управление:</h4>
+                        <p>Используйте стрелки на клавиатуре для перемещения плиток.</p>
+                    </div>
+                </div>
+                
+                <!-- Игра Змейка -->
+                <div id="snake-game-container" class="game-container glass game-card">
+                    <div class="game-header">
+                        <h3>Змейка</h3>
+                        <button class="play-btn" id="restart-snake">
+                            <i class="fas fa-redo"></i>
+                            Новая игра
+                        </button>
+                    </div>
+                    
+                    <p class="game-description">
+                        Классическая игра "Змейка", где вы управляете растущей змейкой и собираете еду. 
+                        Избегайте столкновений со стенами и собственным хвостом.
+                    </p>
+                    
+                    <div class="snake-game">
+                        <canvas id="snake-canvas" width="500" height="500" class="snake-canvas"></canvas>
+                    </div>
+                    
+                    <div class="game-controls" style="margin-top: 1rem;">
+                        <div class="game-score">
+                            Счет: <span id="score-snake">0</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1.5rem; color: var(--text-secondary);">
+                        <h4>Управление:</h4>
+                        <p>Используйте стрелки на клавиатуре для управления змейкой.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- О сайте -->
+        <section id="about" class="section" style="display: none;">
+            <div class="about-section glass">
+                <h2>О GameHub</h2>
+                
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>GameHub - это современная платформа для бесплатных онлайн-игр, которая объединяет лучшие браузерные игры в одном месте.</p>
+                        <p>Наша цель - предоставить пользователям удобный доступ к увлекательным играм без необходимости скачивания и регистрации.</p>
+                        <p>Все игры оптимизированы для работы на компьютерах, планшетах и смартфонах, что позволяет играть где угодно и когда угодно.</p>
+                    </div>
+                    
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <div>
+                                <h4>Быстрая загрузка</h4>
+                                <p>Игры загружаются мгновенно</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature">
+                            <i class="fas fa-mobile-alt"></i>
+                            <div>
+                                <h4>Адаптивный дизайн</h4>
+                                <p>Игры работают на всех устройствах</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature">
+                            <i class="fas fa-palette"></i>
+                            <div>
+                                <h4>Темная/светлая тема</h4>
+                                <p>Выберите комфортный режим</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature">
+                            <i class="fas fa-gamepad"></i>
+                            <div>
+                                <h4>Разнообразие игр</h4>
+                                <p>От классики до современных хитов</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">
+                    <i class="fas fa-gamepad"></i>
+                    <span>GameHub</span>
+                </div>
+                <p class="footer-description">
+                    Лучшая платформа для бесплатных онлайн-игр. Играйте бесплатно, без регистрации и скачивания.
+                </p>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Навигация</h4>
+                <ul>
+                    <li><a href="#" class="nav-link" data-section="home">Главная</a></li>
+                    <li><a href="#" class="nav-link" data-section="games">Игры</a></li>
+                    <li><a href="#" class="nav-link" data-section="about">О сайте</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-contact">
+                <h4>Контакты</h4>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@gamehub.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-globe"></i>
+                        <span>www.gamehub.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-telegram"></i>
+                        <a href="https://t.me/+qXel42RiyrtmNzRi" target="_blank" style="color: var(--text-secondary); text-decoration: none;">
+                            Наш Telegram канал
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>&copy; 2023 GameHub. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Инициализация переменных
+        let currentTheme = localStorage.getItem('theme') || 'light';
+        let currentSection = 'home';
+        let currentGame = 'super-fighters';
+        
+        // Игра 2048
+        let board2048 = [];
+        let score2048 = 0;
+        let gameOver2048 = false;
+        
+        // Игра Змейка
+        let snakeGame;
+        let snakeCanvas, snakeCtx;
+        let snake = [];
+        let food = {};
+        let dx = 20, dy = 0;
+        let snakeScore = 0;
+        let gameLoop;
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Установка темы
+            setTheme(currentTheme);
+            
+            // Инициализация навигации
+            initNavigation();
+            
+            // Инициализация вкладок с играми
+            initGameTabs();
+            
+            // Инициализация игры 2048
+            init2048();
+            
+            // Инициализация игры Змейка
+            initSnake();
+            
+            // Добавление обработчика для кнопки темы
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // Обработчик для кнопки "Начать играть"
+            document.getElementById('startPlayingBtn').addEventListener('click', function() {
+                // Переключаемся на раздел с играми
+                switchSection('games');
+            });
+            
+            // Обработчик для логотипа
+            document.getElementById('homeLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                switchSection('home');
+            });
+            
+            // Обработчик для рестарта 2048
+            document.getElementById('restart-2048').addEventListener('click', init2048);
+            
+            // Обработчик для рестарта змейки
+            document.getElementById('restart-snake').addEventListener('click', initSnake);
+            
+            // Обработчик клавиш для игр
+            document.addEventListener('keydown', handleKeyDown);
+        });
+        
+        // Функция переключения раздела
+        function switchSection(section) {
+            // Скрываем все разделы
+            document.querySelectorAll('.section').forEach(sectionEl => {
+                sectionEl.style.display = 'none';
+            });
+            
+            // Показываем целевой раздел
+            document.getElementById(section).style.display = 'block';
+            
+            // Обновляем активные ссылки в навигации
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === section) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Обновляем текущий раздел
+            currentSection = section;
+            
+            // Если переключаемся на игры, показываем текущую игру
+            if (section === 'games') {
+                showGame(currentGame);
+            }
+            
+            // Прокручиваем к началу страницы
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+        
+        // Функции для работы с темами
+        function setTheme(theme) {
+            currentTheme = theme;
+            if (theme === 'dark') {
+                document.body.classList.add('dark-theme');
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.remove('dark-theme');
+                document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            }
+            localStorage.setItem('theme', theme);
+        }
+        
+        function toggleTheme() {
+            if (currentTheme === 'light') {
+                setTheme('dark');
+            } else {
+                setTheme('light');
+            }
+        }
+        
+        // Функции для навигации
+        function initNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetSection = this.getAttribute('data-section');
+                    switchSection(targetSection);
+                });
+            });
+        }
+        
+        // Функции для вкладок с играми
+        function initGameTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Удаляем активный класс у всех кнопок
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей кнопке
+                    this.classList.add('active');
+                    
+                    // Получаем игру для отображения
+                    const game = this.getAttribute('data-game');
+                    
+                    // Показываем выбранную игру
+                    showGame(game);
+                });
+            });
+        }
+        
+        function showGame(game) {
+            currentGame = game;
+            
+            // Скрываем все контейнеры с играми
+            document.querySelectorAll('.game-container').forEach(container => {
+                container.classList.remove('active');
+            });
+            
+            // Показываем выбранную игру
+            document.getElementById(`${game}-container`).classList.add('active');
+        }
+        
+        // Функции для игры 2048
+        function init2048() {
+            board2048 = Array(4).fill().map(() => Array(4).fill(0));
+            score2048 = 0;
+            gameOver2048 = false;
+            
+            // Обновляем счет
+            document.getElementById('score-2048').textContent = score2048;
+            
+            // Добавляем две начальные плитки
+            addRandomTile();
+            addRandomTile();
+            
+            // Отрисовываем доску
+            render2048Board();
+        }
+        
+        function render2048Board() {
+            const boardElement = document.getElementById('game-2048-board');
+            boardElement.innerHTML = '';
+            
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 4; col++) {
+                    const tileValue = board2048[row][col];
+                    const tile = document.createElement('div');
+                    tile.className = `tile tile-${tileValue}`;
+                    tile.textContent = tileValue !== 0 ? tileValue : '';
+                    tile.style.gridRow = row + 1;
+                    tile.style.gridColumn = col + 1;
+                    
+                    // Анимация появления новой плитки
+                    if (tileValue !== 0) {
+                        tile.style.transform = 'scale(0)';
+                        setTimeout(() => {
+                            tile.style.transform = 'scale(1)';
+                        }, 50);
+                    }
+                    
+                    boardElement.appendChild(tile);
+                }
+            }
+            
+            // Проверяем окончание игры
+            if (isGameOver2048()) {
+                setTimeout(() => {
+                    alert(`Игра окончена! Ваш счет: ${score2048}`);
+                }, 300);
+            }
+        }
+        
+        function addRandomTile() {
+            const emptyCells = [];
+            
+            // Находим все пустые ячейки
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 4; col++) {
+                    if (board2048[row][col] === 0) {
+                        emptyCells.push({row, col});
+                    }
+                }
+            }
+            
+            // Если есть пустые ячейки, добавляем новую плитку
+            if (emptyCells.length > 0) {
+                const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+                // С вероятностью 90% добавляем 2, с вероятностью 10% - 4
+                board2048[randomCell.row][randomCell.col] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
+        
+        function move2048(direction) {
+            if (gameOver2048) return false;
+            
+            let moved = false;
+            const oldBoard = JSON.parse(JSON.stringify(board2048));
+            
+            // В зависимости от направления выполняем соответствующий сдвиг
+            if (direction === 'left') {
+                moved = moveLeft();
+            } else if (direction === 'right') {
+                moved = moveRight();
+            } else if (direction === 'up') {
+                moved = moveUp();
+            } else if (direction === 'down') {
+                moved = moveDown();
+            }
+            
+            // Если ход был сделан, добавляем новую плитку и обновляем доску
+            if (moved) {
+                addRandomTile();
+                render2048Board();
+                document.getElementById('score-2048').textContent = score2048;
+                return true;
+            }
+            
+            return false;
+        }
+        
+        function moveLeft() {
+            let moved = false;
+            
+            for (let row = 0; row < 4; row++) {
+                // Убираем нули и объединяем одинаковые плитки
+                const newRow = [];
+                let prevTile = null;
+                
+                for (let col = 0; col < 4; col++) {
+                    const tile = board2048[row][col];
+                    if (tile !== 0) {
+                        if (prevTile === tile) {
+                            // Объединяем плитки
+                            newRow[newRow.length - 1] = tile * 2;
+                            score2048 += tile * 2;
+                            prevTile = null;
+                            moved = true;
+                        } else {
+                            newRow.push(tile);
+                            prevTile = tile;
+                            // Проверяем, была ли плитка перемещена
+                            if (newRow.length - 1 !== col) {
+                                moved = true;
+                            }
+                        }
+                    }
+                }
+                
+                // Заполняем оставшиеся ячейки нулями
+                while (newRow.length < 4) {
+                    newRow.push(0);
+                }
+                
+                board2048[row] = newRow;
+            }
+            
+            return moved;
+        }
+        
+        function moveRight() {
+            // Поворачиваем массив, используем moveLeft, затем поворачиваем обратно
+            reverseRows();
+            const moved = moveLeft();
+            reverseRows();
+            return moved;
+        }
+        
+        function moveUp() {
+            // Транспонируем массив, используем moveLeft, затем транспонируем обратно
+            transpose();
+            const moved = moveLeft();
+            transpose();
+            return moved;
+        }
+        
+        function moveDown() {
+            // Транспонируем массив, используем moveRight, затем транспонируем обратно
+            transpose();
+            const moved = moveRight();
+            transpose();
+            return moved;
+        }
+        
+        function reverseRows() {
+            for (let row = 0; row < 4; row++) {
+                board2048[row].reverse();
+            }
+        }
+        
+        function transpose() {
+            const newBoard = Array(4).fill().map(() => Array(4).fill(0));
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 4; col++) {
+                    newBoard[col][row] = board2048[row][col];
+                }
+            }
+            board2048 = newBoard;
+        }
+        
+        function isGameOver2048() {
+            // Проверяем, есть ли пустые ячейки
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 4; col++) {
+                    if (board2048[row][col] === 0) {
+                        return false;
+                    }
+                }
+            }
+            
+            // Проверяем, есть ли возможные ходы (соседние одинаковые плитки)
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 4; col++) {
+                    const tile = board2048[row][col];
+                    
+                    // Проверяем соседа справа
+                    if (col < 3 && board2048[row][col + 1] === tile) {
+                        return false;
+                    }
+                    
+                    // Проверяем соседа снизу
+                    if (row < 3 && board2048[row + 1][col] === tile) {
+                        return false;
+                    }
+                }
+            }
+            
+            gameOver2048 = true;
+            return true;
+        }
+        
+        // Функции для игры Змейка
+        function initSnake() {
+            // Останавливаем предыдущую игру, если она была
+            if (gameLoop) {
+                clearInterval(gameLoop);
+            }
+            
+            // Инициализация переменных
+            snakeCanvas = document.getElementById('snake-canvas');
+            snakeCtx = snakeCanvas.getContext('2d');
+            snakeScore = 0;
+            
+            // Настройка размеров canvas
+            const size = Math.min(snakeCanvas.parentElement.clientWidth, 500);
+            snakeCanvas.width = size;
+            snakeCanvas.height = size;
+            
+            // Создаем начальную змейку
+            const startX = Math.floor(snakeCanvas.width / 40 / 2) * 20;
+            const startY = Math.floor(snakeCanvas.height / 40 / 2) * 20;
+            
+            snake = [
+                {x: startX, y: startY},
+                {x: startX - 20, y: startY},
+                {x: startX - 40, y: startY}
+            ];
+            
+            // Создаем первую еду
+            generateFood();
+            
+            // Сбрасываем направление
+            dx = 20;
+            dy = 0;
+            
+            // Обновляем счет
+            document.getElementById('score-snake').textContent = snakeScore;
+            
+            // Запускаем игровой цикл
+            gameLoop = setInterval(updateSnake, 150);
+            
+            // Отрисовываем начальное состояние
+            drawSnake();
+        }
+        
+        function drawSnake() {
+            // Очищаем canvas
+            snakeCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg-card').trim();
+            snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+            
+            // Рисуем сетку
+            snakeCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--border-color').trim();
+            snakeCtx.lineWidth = 0.5;
+            
+            for (let x = 0; x < snakeCanvas.width; x += 20) {
+                snakeCtx.beginPath();
+                snakeCtx.moveTo(x, 0);
+                snakeCtx.lineTo(x, snakeCanvas.height);
+                snakeCtx.stroke();
+            }
+            
+            for (let y = 0; y < snakeCanvas.height; y += 20) {
+                snakeCtx.beginPath();
+                snakeCtx.moveTo(0, y);
+                snakeCtx.lineTo(snakeCanvas.width, y);
+                snakeCtx.stroke();
+            }
+            
+            // Рисуем змейку
+            snake.forEach((segment, index) => {
+                if (index === 0) {
+                    // Голова змейки
+                    snakeCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
+                } else {
+                    // Тело змейки
+                    snakeCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary-light').trim();
+                }
+                
+                snakeCtx.fillRect(segment.x, segment.y, 18, 18);
+                snakeCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary-dark').trim();
+                snakeCtx.lineWidth = 2;
+                snakeCtx.strokeRect(segment.x, segment.y, 18, 18);
+            });
+            
+            // Рисуем еду
+            snakeCtx.fillStyle = '#ef4444';
+            snakeCtx.beginPath();
+            snakeCtx.arc(food.x + 10, food.y + 10, 8, 0, Math.PI * 2);
+            snakeCtx.fill();
+            snakeCtx.strokeStyle = '#dc2626';
+            snakeCtx.lineWidth = 2;
+            snakeCtx.stroke();
+        }
+        
+        function updateSnake() {
+            // Создаем новую голову
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+            
+            // Проверяем столкновение со стенами
+            if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height) {
+                gameOverSnake();
+                return;
+            }
+            
+            // Проверяем столкновение с собой
+            for (let i = 0; i < snake.length; i++) {
+                if (snake[i].x === head.x && snake[i].y === head.y) {
+                    gameOverSnake();
+                    return;
+                }
+            }
+            
+            // Добавляем новую голову
+            snake.unshift(head);
+            
+            // Проверяем, съела ли змейка еду
+            if (head.x === food.x && head.y === food.y) {
+                // Увеличиваем счет
+                snakeScore += 10;
+                document.getElementById('score-snake').textContent = snakeScore;
+                
+                // Генерируем новую еду
+                generateFood();
+            } else {
+                // Удаляем хвост, если еда не была съедена
+                snake.pop();
+            }
+            
+            // Отрисовываем обновленное состояние
+            drawSnake();
+        }
+        
+        function generateFood() {
+            // Генерируем случайную позицию для еды
+            const maxX = Math.floor(snakeCanvas.width / 20) - 1;
+            const maxY = Math.floor(snakeCanvas.height / 20) - 1;
+            
+            let foodOnSnake;
+            do {
+                foodOnSnake = false;
+                food = {
+                    x: Math.floor(Math.random() * maxX) * 20,
+                    y: Math.floor(Math.random() * maxY) * 20
+                };
+                
+                // Проверяем, не находится ли еда на змейке
+                for (let i = 0; i < snake.length; i++) {
+                    if (snake[i].x === food.x && snake[i].y === food.y) {
+                        foodOnSnake = true;
+                        break;
+                    }
+                }
+            } while (foodOnSnake);
+        }
+        
+        function gameOverSnake() {
+            clearInterval(gameLoop);
+            alert(`Игра окончена! Ваш счет: ${snakeScore}`);
+        }
+        
+        // Обработчик клавиш
+        function handleKeyDown(e) {
+            // Управление для игры 2048
+            if (currentGame === 'game-2048' && !gameOver2048) {
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    move2048('left');
+                } else if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    move2048('right');
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    move2048('up');
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    move2048('down');
+                }
+            }
+            
+            // Управление для игры Змейка
+            if (currentGame === 'snake' && gameLoop) {
+                // Изменяем направление змейки
+                if (e.key === 'ArrowLeft' && dx !== 20) {
+                    e.preventDefault();
+                    dx = -20;
+                    dy = 0;
+                } else if (e.key === 'ArrowRight' && dx !== -20) {
+                    e.preventDefault();
+                    dx = 20;
+                    dy = 0;
+                } else if (e.key === 'ArrowUp' && dy !== 20) {
+                    e.preventDefault();
+                    dx = 0;
+                    dy = -20;
+                } else if (e.key === 'ArrowDown' && dy !== -20) {
+                    e.preventDefault();
+                    dx = 0;
+                    dy = 20;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
